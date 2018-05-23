@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Basics</string>
+    <string name="proxy_service_running_notification_title_template">Proxy service running.</string>
+    <string name="proxy_service_requests_count">The service served %1$d request(s)</string>
+    <string name="proxy_service_requests_size">%1$s / %2$s</string>
+</resources>
