@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Basics</string>
-
+    <string name="permission_pp_name">Provident Proxy</string>
+    <string name="permission_pp_desc">Usage of the Provident provided Proxy</string>
+    <string name="sample_device_admin">Device admin</string>
+    <string name="sample_device_admin_description">Device admin description</string>
+    <string name="welcome">Welcome!</string>
+    <string name="detailsTxt">You have %1$s the administration privileges to the application</string>
+    <string name="allowed">allowed</string>
+    <string name="denied">denied</string>
 </resources>

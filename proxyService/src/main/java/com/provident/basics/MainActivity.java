@@ -1,38 +1,28 @@
 package com.provident.basics;
 
-import android.net.Uri;
+import android.annotation.SuppressLint;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
+import com.provident.basics.proxy.server.MyAdminReceiver;
+
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.FragmentById;
+import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.WindowFeature;
 
 @EActivity(R.layout.activity_main)
-@WindowFeature(Window.FEATURE_NO_TITLE)
-public class MainActivity extends AppCompatActivity implements MyCustomWebView.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
 
     @ViewById
-    TextInputLayout textInputLayout;
-
-    @FragmentById(R.id.fragmentX)
-    MyCustomWebView fragment;
-
-    @ViewById
-    TextInputEditText textInputEditText;
+    TextView mDetailsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +34,19 @@ public class MainActivity extends AppCompatActivity implements MyCustomWebView.O
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    @AfterViews
-    void initialize() {
-        textInputEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    go(textInputEditText.getText().toString());
-                    return true;
-                }
-                return false;
-            }
-        });
+    @SystemService
+    DevicePolicyManager mDevPolMan;
+
+    @SuppressLint("StringFormatInvalid")
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ComponentName receiver = ComponentName.createRelative("com.provident.basics", MyAdminReceiver.class.getName());
+            boolean isAllowed = mDevPolMan.isAdminActive(receiver);
+            mDetailsText.setText(getString(R.string.detailsTxt, isAllowed ? getText(R.string.allowed) : getText(R.string.denied)));
+        }
     }
 
 
@@ -64,27 +55,8 @@ public class MainActivity extends AppCompatActivity implements MyCustomWebView.O
         super.onPause();
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
-    }
-
-    @Click
-    void goButton() {
-        go(textInputEditText.getText().toString());
-    }
-
-    void go(String url) {
-        fragment.loadUrl(url);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "Fragment interaction happened: ");
-        Log.d(TAG, uri.toString());
-        if (textInputEditText != null) {
-            textInputEditText.setText(uri.toString());
-        }
     }
 }

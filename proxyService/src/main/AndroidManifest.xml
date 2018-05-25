@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.provident.basics">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.BIND_DEVICE_ADMIN"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <permission
+        android:name="com.provident.proxy.USE_PROXY_SERVICE"
+        android:description="@string/permission_pp_desc"
+        android:label="@string/permission_pp_name"
+        android:protectionLevel="dangerous" />
 
     <application
         android:allowBackup="true"
@@ -31,20 +41,31 @@
             android:name="com.provident.basics.proxy.server.ProxyService_"
             android:enabled="true"
             android:exported="true"
-            android:process="com.provident.basics.ProxyService"
-            >
+            android:permission="android.permission.INTERNET">
             <intent-filter>
                 <action android:name="com.provident.basics.proxy.server.ProxyService_" />
             </intent-filter>
         </service>
 
+        <!-- <receiver
+             android:name=".proxy.server.MyReceiver_"
+             android:enabled="true"
+             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+             <intent-filter>
+                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>
+         </receiver>-->
         <receiver
-            android:name=".proxy.server.MyReceiver_"
-            android:enabled="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            android:name="com.provident.basics.proxy.server.MyAdminReceiver"
+            android:description="@string/sample_device_admin_description"
+            android:label="@string/sample_device_admin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
     </application>

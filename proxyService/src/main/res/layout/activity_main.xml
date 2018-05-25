@@ -5,55 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minHeight="250dp"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+
+    tools:context=".MainActivity"
+    tools:actionBarNavMode="list">
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="@android:color/darker_gray"
+        android:shadowDx="1"
+        android:shadowDy="2"
+        android:shadowRadius="3"
+        android:text="@string/welcome"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        android:typeface="sans"
 
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/ic_launcher_background"
-            android:backgroundTint="?attr/colorPrimaryDark"
-            android:backgroundTintMode="src_over"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayout"
-
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/textInputEditText"
-                    android:layout_width="295dp"
-                    android:layout_height="match_parent"
-                    android:inputType="textUri"
-                    android:singleLine="true"
-                    android:visibility="visible" />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/goButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="GO" />
-
-        </LinearLayout>
-
-        <fragment
-            android:id="@+id/fragmentX"
-            android:name="com.provident.basics.MyCustomWebView_"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/mDetailsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_min="wrap" />
 </android.support.constraint.ConstraintLayout>
